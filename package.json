@@ -4,15 +4,27 @@
   "description": "Playwright E2E Tests with AI Capabilities incl MCP",
   "main": "index.js",
   "scripts": {
+    "make-apt": "npx playwright test tests/functional/make.aptmnt.spec.ts",
+    "debug": "npx playwright test tests/demo/debug.make.aptmnt.spec.ts",
+    "debug:CLI": "PWDEBUG=1 npx playwright test tests/demo/debug.make.aptmnt.spec.ts",
+    "debug:trace": "npx playwright test tests/demo/debug.make.aptmnt.spec.ts --trace on",
+    "debug:ui": "npx playwright test tests/demo/debug.make.aptmnt.spec.ts --ui",
+    "ele-make-apt": "npx playwright test tests/demo/ele.handling.make.aptmnt.spec.ts",
     "login": "npx playwright test tests/functional/login.spec.ts",
-    "demo": "npx playwright test tests/demo/mytest.spec.ts"
+    "demo": "npx playwright test tests/demo/mytest.spec.ts",
+    "inventoryrun": "npx playwright test tests/functional/inventory.spec.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "playwright",
+    "playwright-e2e-tests",
+    "playwright-mcp"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.1"
+    "@types/node": "^25.9.1",
+    "allure-playwright": "^3.9.0"
   }
 }

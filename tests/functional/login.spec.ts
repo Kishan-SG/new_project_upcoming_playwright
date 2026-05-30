@@ -15,13 +15,13 @@ test.describe("Login functionality", () => {
   });
 
   test("Test should login from valid credentials", async ({ page }) => {
-    //login
-    await page.getByLabel("Username").fill("John Doe");
-    await page.getByLabel("Password").fill("ThisIsNotAPassword");
-    await page.getByRole("button", { name: "Login" }).click();
+      //successfull login
+      await page.getByLabel("Username").fill("John Doe");
+      await page.getByLabel("Password").fill("ThisIsNotAPassword");
+      await page.getByRole("button", { name: "Login" }).click();
 
-    //assert a text
-    await expect(page.locator("h2")).toContainText("Make Appointment");
+      //assert a text
+      await expect(page.locator("h2")).toContainText("Make Appointment");
   });
 
   test("Test should prevent login from invalid credentials", async ({page}) => {
