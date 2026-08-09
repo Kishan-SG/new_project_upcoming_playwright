@@ -44,6 +44,6 @@ test.describe("Make appointment", () => {
     await expect(page.locator("h2")).toContainText("Appointment Confirmation");
     await expect(page.getByRole("link", { name: "Go to Homepage" })).toBeVisible();
   });
-
+console.log("Test completed");
   //moretest goes here
 });
