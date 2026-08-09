@@ -4,18 +4,24 @@ import { defineConfig, devices } from "@playwright/test";
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 console.log("Hello from config🤗");
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+// {
+//   "compilerOptions"; {
+//     "types"; ["node", "playwright"]
+//   }
+// }
+export const baseConfig = defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: true, //if false it goes  for defualt worker
+  globalTimeout: 3*60*60*1000,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   // forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -23,6 +29,10 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  
+  globalSetup: require.resolve('./tests/helpers/global-setup.ts'),
+  globalTeardown: require.resolve('./tests/helpers/global-teardown.ts'),
+  expect : {timeout: 3_000},
   reporter: [
     ["html", {
       open: "never"
@@ -50,13 +60,23 @@ export default defineConfig({
     trace: "on-first-retry",
     headless: false,
     navigationTimeout: 30_000, //for longer timeout for navigation, default is 30 seconds
+    screenshot:"on",
+    //video :"retain-on-failure" ,
+    //actionTimeout: 10_000,
+    //launchOptions:
+    
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"],
+        // viewport: null,
+        // launchOptions :{args:["--start-maximized"],
+
+        // },
+       },
     },
 
     // {
@@ -88,6 +108,11 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
+    // {
+    //   name: "Galaxy A55",
+    //   use:{
+    //     ...devices["Galaxy A55"]}
+    // }
   ],
 
   /* Run your local dev server before starting the tests */

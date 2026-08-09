@@ -1,4 +1,5 @@
-import { test, expect, } from "@playwright/test";
+import { test, expect, devices} from "@playwright/test";
+import constants from "../../data/constants.json";
 test("Test should lod home page correct title", async ({ page }) => {
   // go to home page
   await page.goto("https://katalon-demo-cura.herokuapp.com/");
@@ -27,8 +28,28 @@ test("should do execute somthing", async({page}, testInfo) => {
 
 });
 
-test.only("should do demo somthing page fixtures", async({page, browserName}, testInfo) => { //it tells the browsername which it is running on
+test("should do demo somthing page fixtures", async({page, browserName}, testInfo) => { //it tells the browsername which it is running on
   console.log(`>> test runs on: ${browserName}`)
+
+});
+
+test.only("should demo devices", async({page}, testInfo) => { //it tells the browsername which it is running on
+  console.log(`>> test runs on: ${Object.keys(devices)}`);
+
+});
+
+test.only("should demo goole run 1",{tag:'@demo'}, async({page}, testInfo) => { //it tells the browsername which it is running on
+  await page.goto("https://www.google.com");
+
+});
+
+test("should demo goole run 2",{tag:'@demo'}, async({page}, testInfo) => { //it tells the browsername which it is running on
+  await page.goto("https://www.google.com");
+
+});
+
+test.only("should demo constant data ", async({page}, testInfo) => { //it tells the browsername which it is running on
+  console.log(`>>Constants data: ${JSON.stringify(constants.STATUSCODES)}`);
 
 });
 

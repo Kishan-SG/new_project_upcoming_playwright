@@ -4,14 +4,23 @@
   "description": "Playwright E2E Tests with AI Capabilities incl MCP",
   "main": "index.js",
   "scripts": {
+    "dev:make-apt": "npx playwright test --config=config/dev.playwright.config.ts tests/functional/make.aptmnt.spec.ts",
+    "demo:params": "npx playwright test tests/demo/params.aptmnt.spec.ts",
     "make-apt": "npx playwright test tests/functional/make.aptmnt.spec.ts",
+    "test:make-apt": "npx playwright test --config=config/test.playwright.config.ts tests/functional/make.aptmnt.spec.ts",
+    "demo:tag": "npx playwright test --grep @smoke",
+    "pw-basic-cap": "npx playwright test tests/demo/pw.basic.cap.make.aptmnt.spec.ts",
     "debug": "npx playwright test tests/demo/debug.make.aptmnt.spec.ts",
     "debug:CLI": "PWDEBUG=1 npx playwright test tests/demo/debug.make.aptmnt.spec.ts",
     "debug:trace": "npx playwright test tests/demo/debug.make.aptmnt.spec.ts --trace on",
     "debug:ui": "npx playwright test tests/demo/debug.make.aptmnt.spec.ts --ui",
     "ele-make-apt": "npx playwright test tests/demo/ele.handling.make.aptmnt.spec.ts",
     "login": "npx playwright test tests/functional/login.spec.ts",
+    "pw-adv-cap": "npx playwright test tests/demo/pw.adv.cap.login.spec.ts",
     "demo": "npx playwright test tests/demo/mytest.spec.ts",
+    "demo:parallel": "npx playwright test --grep @demo",
+    "demo:global": "npx playwright test tests/demo/mytest.spec.ts",
+    "hook-demo": "npx playwright test tests/demo/hooks-demo.spec.ts",
     "inventoryrun": "npx playwright test tests/functional/inventory.spec.ts"
   },
   "keywords": [
@@ -24,7 +33,11 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.1",
-    "allure-playwright": "^3.9.0"
+    "@types/node": "^25.9.2",
+    "allure-playwright": "^3.9.0",
+    "csv-parse": "^7.0.0",
+    "dotenv": "^17.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
   }
 }

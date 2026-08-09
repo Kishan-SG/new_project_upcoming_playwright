@@ -1,38 +1,36 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Make appointment", () => {
-  test.beforeEach("Login with valid cred", async ({ page },testInfo) => {
-  //Get the URL from config file
-
-    const envConfig = testInfo.project.use as any;
-    await page.goto(envConfig.appURL);
-    //await page.goto("https://katalon-demo-cura.herokuapp.com/");
+test.describe("Make appointment", {annotation: {type: "Story", description : "JIRA-1234 Make Appointment Feature"}}, () => {
+  test.beforeEach("Login with valid cred", async ({ page }, testInfo) => {
+    await page.goto("https://katalon-demo-cura.herokuapp.com/");
 
     //2. Click on the make appointment
     await page.getByRole("link", { name: "Make Appointment" }).click();
     await expect(page.getByText("Please login to make")).toBeVisible();
 
     //successfull login
-    await page.getByLabel("Username").fill(process.env.TEST_USER_NAME);
-    await page.getByLabel("Password").fill(process.env.TEST_PASSWORD);
+    await page.getByLabel("Username").fill("John Doe");
+    await page.getByLabel("Password").fill("ThisIsNotAPassword");
     await page.getByRole("button", { name: "Login" }).click();
+
+    /**
+     * Add custom screenshot at test scope level
+     * @todo add this as a helper function 
+     */
+    let fullPageScreenshot = await page.screenshot({fullPage :true});
+    await testInfo.attach("login page", {body: fullPageScreenshot, contentType: "image/png"});
+
 
     //assert a text
     await expect(page.locator("h2")).toContainText("Make Appointment");
   });
 
   //test goes here
-  test("test should make an appointment with non-default values", async ({
-    page,
-  }, testInfo) => {
-    //testInfo - has the property of config
-
-    console.log(`>> current config \n: ${JSON.stringify(testInfo.config)}`);
-
+  test("test should make an appointment with non-default values", {annotation: {type: "Bug", description:"Defect: 1234- Does not work in firefox"}, tag: '@smoke'}, async ({ page,browserName }) => { //(title, body, callback()
+    //skip the test for firefox
+    test.skip(browserName === "firefox","open bug ID: 1234");
     //dropdown
-    await page
-      .getByLabel("Facility")
-      .selectOption("Hongkong CURA Healthcare Center");
+    await page.getByLabel("Facility").selectOption("Hongkong CURA Healthcare Center");
 
     //chechkbox
     await page.getByText("Apply for hospital readmission").click();
@@ -48,17 +46,14 @@ test.describe("Make appointment", () => {
     //multiline comment
     await page.getByRole("textbox", { name: "Comment" }).click();
     await page.getByRole("textbox", { name: "Comment" }).fill("This is a multiline comments capturedd by playwright codegen");
-
+    
     //button
     await page.getByRole("button", { name: "Book Appointment" }).click();
 
     //assertions
     await expect(page.locator("h2")).toContainText("Appointment Confirmation");
-    await expect(page.getByRole("link", { name: "Go to Homepage" }),
-    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Go to Homepage" })).toBeVisible();
   });
 
   //moretest goes here
-
-  
 });
